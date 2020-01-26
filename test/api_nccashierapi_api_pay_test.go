@@ -2,6 +2,7 @@ package test
 
 import (
 	"github.com/RiverDanceGit/yeepayGo"
+	"github.com/RiverDanceGit/yeepayGo/enum"
 	"github.com/RiverDanceGit/yeepayGo/sdk"
 	"testing"
 )
@@ -11,7 +12,7 @@ func TestApiNccashierapiApiPayMiniApp(t *testing.T) {
 	config := GetYeepayConfig()
 	logger := yeepayGo.NewYeepayLogger()
 	apiNccashierapiApiPay := sdk.NewApiNccashierapiApiPay(config, logger)
-	req := apiNccashierapiApiPay.GetMiniAppRequest(token, "1", "1", "115.216.124.169", "")
+	req := apiNccashierapiApiPay.GetRequest(token, "1", "1", "115.216.124.169", "", "", enum.PAY_TOOL_MINI_PROGRAM, enum.PAY_TYPE_WECHAT)
 	resp, err := apiNccashierapiApiPay.GetResponse(req)
 	if err != nil {
 		t.Error(err)
@@ -49,7 +50,7 @@ func TestApiNccashierapiApiPayWechatOpen(t *testing.T) {
 	config := GetYeepayConfig()
 	logger := yeepayGo.NewYeepayLogger()
 	apiNccashierapiApiPay := sdk.NewApiNccashierapiApiPay(config, logger)
-	req := apiNccashierapiApiPay.GetWechatOpenRequest(token, "1", "1", "115.216.124.169", "")
+	req := apiNccashierapiApiPay.GetRequest(token, "1", "1", "115.216.124.169", "", "", enum.PAY_TOOL_WECHAT_OPENID, enum.PAY_TYPE_WECHAT)
 	resp, err := apiNccashierapiApiPay.GetResponse(req)
 	if err != nil {
 		t.Error(err)

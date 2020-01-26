@@ -7,5 +7,5 @@ func GetPrivateKeyFile() string {
 }
 
 func GetYeepayConfig() yeepayGo.YeepayConfig {
-	return yeepayGo.NewYeepayConfig("", "", "", "", GetPrivateKeyFile())
+	return yeepayGo.NewYeepayConfig("", "", GetPrivateKeyFile())
 }

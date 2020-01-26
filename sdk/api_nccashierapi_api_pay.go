@@ -22,7 +22,7 @@ type ApiNccashierapiApiPay struct {
 
 // 聚合API收银台
 // https://open.yeepay.com/docs/e-commerceprotocols/rest__v1.0__nccashierapi__api__pay.html
-func (obj ApiNccashierapiApiPay) GetRequest(token, userNo, userType, userIp, appid, openId, payTool, payType string) request.NccashierapiApiPayRequest {
+func (obj ApiNccashierapiApiPay) GetRequest(token, userNo, userType, userIp, appId, openId, payTool, payType string) request.NccashierapiApiPayRequest {
 	extParamMap := params.ExtParamMap{"XIANXIA"}
 	extParamMapBody, _ := json.Marshal(extParamMap)
 
@@ -36,23 +36,13 @@ func (obj ApiNccashierapiApiPay) GetRequest(token, userNo, userType, userIp, app
 	req.SetUserNo(userNo)
 	req.SetUserType(userType)
 	req.SetUserIp(userIp)
-	req.SetAppId(appid)
+	req.SetAppId(appId)
 	req.SetOpenId(openId)
 	req.SetPayEmpowerNo("")
 	req.SetMerchantTerminalId("")
 	req.SetMerchantStoreNo("")
 	req.SetExtParamMap(string(extParamMapBody))
 	return req
-}
-
-// 小程序支付
-func (obj ApiNccashierapiApiPay) GetMiniAppRequest(token, userNo, userType, userIp, openId string) request.NccashierapiApiPayRequest {
-	return obj.GetRequest(token, userNo, userType, userIp, obj.config.GetMiniAppId(), openId, "MINI_PROGRAM", "WECHAT")
-}
-
-//公众号 H5 支付
-func (obj ApiNccashierapiApiPay) GetWechatOpenRequest(token, userNo, userType, userIp, openId string) request.NccashierapiApiPayRequest {
-	return obj.GetRequest(token, userNo, userType, userIp, obj.config.GetMpAppId(), openId, "WECHAT_OPENID", "WECHAT")
 }
 
 func (obj ApiNccashierapiApiPay) GetResponse(req request.NccashierapiApiPayRequest) (response.NccashierapiApiPayResponse, error) {

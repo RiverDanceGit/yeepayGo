@@ -21,7 +21,7 @@ type ApiStdTradeRefund struct {
 
 // 退款请求
 // https://open.yeepay.com/docs/e-commerceprotocols/rest__v1.0__std__trade__refund.html
-func (obj ApiStdTradeRefund) GetRequest(orderId, uniqueOrderNo, refundRequestId, refundAmount, description, memo string) request.StdTradeRefundRequest {
+func (obj ApiStdTradeRefund) GetRequest(orderId, uniqueOrderNo, refundRequestId, refundAmount, description, memo, notifyUrl string) request.StdTradeRefundRequest {
 	req := request.NewStdTradeRefundRequest()
 	req.SetHttpMethod(enum.HTTP_METHOD_POST)
 	req.SetMethod("/rest/v1.0/std/trade/refund")
@@ -34,7 +34,7 @@ func (obj ApiStdTradeRefund) GetRequest(orderId, uniqueOrderNo, refundRequestId,
 	req.SetRefundAmount(refundAmount)
 	req.SetDescription(description)
 	req.SetMemo(memo)
-	req.SetNotifyUrl(obj.config.GetRefundNotifyUrl())
+	req.SetNotifyUrl(notifyUrl)
 	req.SetAccountDivided("")
 	req.SetRefundStrategy("")
 	return req

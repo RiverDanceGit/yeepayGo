@@ -12,7 +12,7 @@ func TestApiStdTradeRefund(t *testing.T) {
 	apiStdTradeRefund := sdk.NewApiStdTradeRefund(config, logger)
 	//req := apiStdTradeRefund.GetRequest("20191022144904272121988263183551", "1001201910220000001214000713", util.Uuid(), "0.01", "退款说明", "备注")
 	//req := apiStdTradeRefund.GetRequest("20191028170337273005262917469375", "1001201910280000001229080435", "TEST_1", "0.01", "退款说明", "备注")
-	req := apiStdTradeRefund.GetRequest("20191106124518274283857384178879", "1001201911060000001253553715", "TEST_2", "0.01", "退款说明", "备注")
+	req := apiStdTradeRefund.GetRequest("20191106124518274283857384178879", "1001201911060000001253553715", "TEST_2", "0.01", "退款说明", "备注", "")
 	resp, err := apiStdTradeRefund.GetResponse(req)
 	if err != nil {
 		t.Error(err)

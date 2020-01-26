@@ -1,0 +1,8 @@
+package enum
+
+const (
+	PAY_TOOL_MINI_PROGRAM  = "MINI_PROGRAM"  // 小程序支付
+	PAY_TOOL_WECHAT_OPENID = "WECHAT_OPENID" // 公众号 H5 支付
+
+	PAY_TYPE_WECHAT = "WECHAT"
+)
