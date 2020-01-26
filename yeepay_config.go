@@ -10,8 +10,8 @@ func NewYeepayConfig(id, miniAppid, mpAppid, yopPublicKey, privateKeyFile string
 	yeepayConfig.SetParentMerchantNo(id)
 	yeepayConfig.SetYopPublicKey(yopPublicKey)
 	yeepayConfig.SetPrivateKeyFile(privateKeyFile)
-	yeepayConfig.SetMiniAppId(miniAppid)
-	yeepayConfig.SetMpAppId(mpAppid)
+	yeepayConfig.SetMiniAppId(miniAppid) // 小程序 appid
+	yeepayConfig.SetMpAppId(mpAppid)     // 公众号 appid
 	return yeepayConfig
 }
 

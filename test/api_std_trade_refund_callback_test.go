@@ -1,0 +1,68 @@
+package test
+
+import (
+	"encoding/json"
+	"github.com/RiverDanceGit/yeepayGo/callback"
+	"github.com/RiverDanceGit/yeepayGo/util"
+	"strings"
+	"testing"
+)
+
+func TestApiStdTradeRefundCallback(t *testing.T) {
+	response := ""
+	response = "fKBeQTgxy7DPZi1TkHjnB38zM40gko18IKBzkKA95NXQYDLg7CA0MpkMpRedCBXJxXgxx52KWoEWsHlYJGTrL8Jx_7ZT7-Z8VBwF18IFkNhgV9eKLtqH9Cwb8SX_l3fYa8q282B6_obcYqRaxj9aOcRjNprmyj99KcS3B939dTbk_nmpGCLxcMuDe6uO9kizTe2k08ijw2H75243OVxnRToKx5Uf_yZ0dKicIGoPxbgElNW-VQWcVlc8KGuf-iv5keQ_mx1LGOHB9JzACTQc2RVsXWJj3-vKqFjO_ZF7yprp7vndYdMpw6Es5UDOQF6EDHfswZlJMNOfYO1M4gDAJQ$FOPIObbuXn8kGVLF4xF9zKeZ4i8aFTSSGwugf1qnQ28q782wGzW4h2aK_faAitO7OQJUUk8lujOSmbhunhnxcCl2-bfqhSpb4q2BAO_EBym-K6oaMcp9TM4J0nYDJZ-mNiDrHUzl4nyi59dftRPU0BUF1h3cCS0SwjcexwH14ZNBN2MRapKMPie4b_PQ29QAaUoxnjYO5YCAvEEe_QWJsB4XSrenhRmVq-HpOiZ9_Og_yRxBAAlH3vEZDkhLYgsU9mYvmI79V5qdWJCjn2mWQw7g4j19EMHejFEbmqvUoeSC6O7kaXuoem2LFaAs25klTJbcmjc6uwMDkMpvWxxn66HDxTIzJ-WCXuJTXirSteswWce_MqZ1RUxFBdh4I-txXyx549WgsJY6DxTBjnWCOgbsSvycwRSaGubPqcjKD0QMci2h5RwvB4dI-RzuS1byvCGz7NLXmYGSJTnMI1qwJy0tKoihqHc3IG5koM9bwEvAyDCyjovFipzlSann72zDJzzHSoP-gJCifo2MQQtbNVbbv_RLd4955lHwi6ve_2nPcSk3N845hhdzYmOt5_w0S0JxC84d5IM6oAjbYgAxhmuuT943fL4XmXnct6sw2Ez9W03l3EIJVNQNoLVsYhbc0LXt4fMPtn8nXaxiJX-Z1CDuUkZNrFkYdkt_sHNKH94S3hDSolBKnd7YsCP24wWFbLGv-xiYdSQXU_QjkHILgUKiQtTRVdK6ySwIoNUgUomZkllmHG-VsTHbpgPLb99X3PdScaBHmekQNog_lwf1Mmp7dE18LBggU65lMEHMzk9_8RxLjcLag9ZdxKNwjx2AXtMmxaWBI9agcKESGwUaQ0XomcUL2PUqQObIF_-QxTEV-uuCn77_Y-kqWAlGBfew6Dm_SkK_Uep9R9quCtt7S60OxZMLZVPHoLWwaRYtXS_MCEVHDUXUvqmjUnHBU5riE0CGenwIwsEnuLvsjhH6XoPrMSzHprP-xaYOr8GwnloPbLHbsRuLuUR5bPAyz2k5Z7oe9DAGqJ_8YaZqi5xtouzG9haJvA1od__niNWvuJlzBXjmfwsxe88zRIdX2G6NVG6ph2VzEmK1r_Wljrph0AFZFEiS80cAP734rt6DF5-QJ66sppFxTVRNBnt56rhAgHVWvCp7mxdXK9691pAmJmFcAARr6BJmcQYZOPxYDq0$AES$SHA256"
+	response = "M7H9uAHcuFK_RT3b4adNouMGcKd21hK9cQwwHlPh0f1iptXX5Tkary-ii4GAplTeFWxb_xzgk2Nf4RLuedOsjHVHIxjTNtSQZaan_Q2h1OcORF2Ax5o0Uk1wqvFkiYkDyfN1c-wJKmgOyxhfCWyGLrAVdbY2oUtYZ5UXTxumxGFQKAOXR9mJAftGUBgZG5NcYh_D4oR4ShdqzP3UAjHaoanDRCcsfITynJJTQCLa0ANRluXiXkG3uwybzvh5RSJtDA0i36e4gf7E-fiODD1i8-9p0mqqi3AdbgQvU6BZp0765SC0HoeWZKgyAtSt7OZ1O3aYKvb3fOP0b2d6Q4pUig$-fNY5gAlfPVHL1h9Hrx5A-W7e1RyDtAubANzTTcpp0zgiSsEmSnKS8zjpJ0BFP70MCTMa3UqTPy_8hCIPb0AMDhhHLTb5DydlVnvQsNCR0YZx3aoLpPa93lKKWCIeoA8zpeYH-2CJNUt3qFinLtqm1pb1_-hQq9zUZdoDHYtFdkCaHd0gmL0P6qXB5xzsHxGEOB648Zkg-6jEaf2gVvI7GGZOB8xdNDG9g2BMtRyknssbWOharwMSwJTCFNN6DiPwGAifONPFQ7EQPJlQnp7bOOgs9JXomAh2zBn0a8EOId3hC6kWSKVH9Up61weeC9YyGpZjMhGbBf4Ilca87czs8Cku7xGYJniWUZLU8bAAITTSZw-BHyp7OXFSmF5xnm0yyQ-lRFNyqLa4XpcKlsqXTlTxUjvz882aEW_jvRStBXJLtOiamBMcAsdVOY8bfJTn8yuqFdI5Hu9KJhbbFqH7Ajjkr8uKxIwzhLLgks-hWlVqomy7eWc69LTCmteh72nD9Xr0oa_9qihXYvNDH3kLzbvgFaZGZkouOZL1373dnMfWdAgRMQJqns_gLrBZ6kHOBYpXNSoMS2cxcLn58qiTPWoYR-rcww8dQy7CyiESOrMVSrApYSMB6rLxq21sVgixeQODJrWYjrRLGFIr2vRd9fSfkNoyisK0I8e9Fe-sAhaiatzIHiCSsakr5L8NPJ5rllhmtJdZOJu_OMX1i0T9inXnGfu3ojfWIuA8LzvdNRHJZGZ_cmPy38yl7VVgYvpz7WKDm_KRUsq1r5AljH41OD0HNRrmymXO2f4CpniDEOqFQeIl7szb1xzejv5kgccClAZ1H-pmSf-1LdiszmcluqzvSSwMYeh3ILIgIAHdf8fIWa0PiiHnoE_UYyO9ETI0wtbznZ-82lbZDrXgY9vknnvZwJSUAzyNqMhta8nokOoxTzy8lJ69P01PxtgPjnzwZftQkevIePF3_SuwdPAl4_hh1QrliDr62ihZBBJ7Rl5o74muJxW2-SAwrImU3TvysUVbcie35cjBL4eMdsSXtXV0tBE_HFiI7G-N_jczNBYPMmzy2RdLZ21nTA1aqfsN-01YvRNwIjqlK4nHzdhluyD7Wf5Ppk6RdGbmGjMCcLkKdHtVaG8JelndX71x_MZ3w3CZTfhnS6k9W3VYnwqoQMtqX8HFhy5WEJmmCgEJDY$AES$SHA256"
+	response = "bXqWdxFsOG-2S3uDd2FRfjLz-y7RoonkmYW0qmzpCoc7kEQgQN7odQRyjzCWaezNTfhfaMSOsg-PzNJzwpFcWKyOdBkZSQC6Y2eSk2hhPFHtPNujeQbPl0uAfx6TE8iFuYOFdBSeHxHcueMrrjJwNcFhaZ7upl3rJ8p2rYUQfZlVQdFf9_zR9mV44MozznQZkou3j5vWjw9g5AdDDJVzcgs0yNmDJLJasqYec1dH34slGHzsefgHuPh9DblKtYvlR57zVo7aTBn4Gk3HStyIHKrVyPC-bJ_oAUMQmCpjyNK__ZqyYsMa_6fft3iwlhD2KRK1s3aQ9waamOg2Sh0MYg$oPEa2zlc6lFBlnkjECcaFgDMyhAb6dNCNlSWnuACxrPIvP5Mhf1uxYrV0aHp5Iabjikc2eqk7KgdXgQoujL2FU-knyYA_V_vL40t2aky5asAlVMVVlZGCZGgYMIiXThvb2wXJFE3Q99zU9kf-8UYV-oe8_-nAwXQ2EJPWP_hXkRgr0jQQFh48YYl0iLhxNlTK0nqHpq3-vjAdg1rVHkxtrSxtx5NJTLSJtHXi0XUf4Ita6ZdaCRU08wedU67U9X32cFZbzPu6IH16Oj3VE0XGGVH-B3ohyqYYS0xVSxOSuE_zaJ-1V0BSmaqDaNpgDjDh37DQZIk5wz8MTuaENrWFrNYQn1EawfrXv3RthnSpljfHDZmRMUneH9z9gDhW8xAfKNn4V_lzlMLa4AEERErJiLAlRdiCeGRWKeErD1jKfhtZYNKstHPIGJa2Gsu5EXgCIAGJXf7no5SqIy4F5m4WX4xOptSuRCdHF1su-z8gqtnRJqefCn-d1LSZBJEbdhj87WDL5JbuH4XZTyExY-KpgqJRXs8G8KQej_A2hI7cmbqKVXtVWiiAdNayeIgLiH71YE9Wx2rNvbe0pwjgvoic-un2mZkrZW32aTDRBWoBM8ZofWlkIWxmlMCoQfu8K-Gk4vnLT5K9zse1i4mrX0MvMOSAr8bUw3xs5wlUOfv5JVI1kmBciO084W6aalZCKLWNGuCouUi70epLo7UMGlaoJEqItLnLcbPRqiB2kgTDaDkr21-Ws3UdThBOWLZsZR1B7uvg58ICyDHao2uJCnMQdQwTTZZnQYea4mmbeZ-4q-j9dk-DoxbHbkM2VDmE3wcuJ_B8JJrPYqxezraFWR2k6qhdF1mP4xYY47RUvmZdU6fS6-e1CGvrpanuY2KkfpkiMzPnACKPaZy7wKye1G55z0l0QAK8jonN3IWlgfH6Q7DC1wQJmtOVQOQev9kY7lLxtQGXASyaz0s41hdMlLlcxQpOTgjFAvgJNkZKpkcZRmB83EQiryA4nxhSgZfJKAj3-xwbXL4zLNovuN5DYaCYR0BVTRxHdmKBiqABHt7zlN2x32-82zlL4ZLRkEUylVzkR7zQmheByOmifnjO0AOvzK0_BMFc81JUUpA9yq9L6BVF4Sx6Pvl9hfTCNgFhE918ugLFWaEJn0sngpRSZTanQ$AES$SHA256"
+	stdTradeRefundCallback := callback.StdTradeRefundCallback{
+		response,
+		"OPR:10028946649",
+	}
+
+	args := strings.Split(stdTradeRefundCallback.Response, "$")
+	t.Log("args[0]", args[0])
+	t.Log("args[1]", args[1])
+	t.Log("args[2]", args[2])
+	t.Log("args[3]", args[3])
+
+	encryptedRandomKeyToBase64, _ := util.YeepayBase64Decode(args[0])
+	encryptedDataToBase64, _ := util.YeepayBase64Decode(args[1])
+	//symmetricEncryptAlg := args[2]
+	//digestAlg := args[3]
+
+	randomKey, err := util.RsaPrivateDecode(encryptedRandomKeyToBase64, GetPrivateKeyFile())
+	if err != nil {
+		t.Error(err)
+		return
+	}
+	t.Log("randomKey", string(randomKey))
+
+	encryptedData := util.Aes128ECBDecode(encryptedDataToBase64, randomKey)
+	t.Log("encryptedData", string(encryptedData))
+
+	signToBase64 := util.Substr(util.Strrchr(string(encryptedData), "$"), 1, len(encryptedData)-1)
+	sourceData := util.Substr(string(encryptedData), 0, len(encryptedData)-len(signToBase64)-1)
+
+	var resp callback.StdTradeRefundCallbackResponse
+	err = json.Unmarshal([]byte(sourceData), &resp)
+	if err != nil {
+		t.Error(err)
+		return
+	}
+
+	t.Log("resp.DisAccountAmount", resp.DisAccountAmount)
+	t.Log("resp.ResidualAmount", resp.ResidualAmount)
+	t.Log("resp.OrderId", resp.OrderId)
+	t.Log("resp.AccountDivided", resp.AccountDivided)
+	t.Log("resp.BizSystemNo", resp.BizSystemNo)
+	t.Log("resp.Description", resp.Description)
+	t.Log("resp.UniqueOrderNo", resp.UniqueOrderNo)
+	t.Log("resp.RefundRequestId", resp.RefundRequestId)
+	t.Log("resp.RefundSuccessDate", resp.RefundSuccessDate)
+	t.Log("resp.YeepayRefundPromotionDTOList", resp.YeepayRefundPromotionDTOList)
+	t.Log("resp.UniqueRefundNo", resp.UniqueRefundNo)
+	t.Log("resp.ParentMerchantNo", resp.ParentMerchantNo)
+	t.Log("resp.RefundRequestDate", resp.RefundRequestDate)
+	t.Log("resp.MerchantNo", resp.MerchantNo)
+	t.Log("resp.RefundAmount", resp.RefundAmount)
+	t.Log("resp.Status", resp.Status)
+}
