@@ -2,7 +2,6 @@ package sdk
 
 import (
 	"encoding/json"
-	"errors"
 	"github.com/RiverDanceGit/yeepayGo"
 	"github.com/RiverDanceGit/yeepayGo/enum"
 	"github.com/RiverDanceGit/yeepayGo/params"
@@ -56,18 +55,18 @@ func (obj ApiStdTradeOrder) GetResponse(req request.StdTradeOrderRequest) (respo
 	url := obj.config.GetGateway() + req.GetMethod()
 
 	var resp response.StdTradeOrderResponse
-	code, bodyBytes, err := util.Post(url, nil, req.GetBizContent(), headers, obj.logger)
+	httpResp, err := util.Post(url, nil, req.GetBizContent(), headers, obj.logger)
 	if err != nil {
-		return resp, err
-	} else if code != 200 {
-		return resp, errors.New(req.GetMethod() + " code:" + strconv.Itoa(code))
+		return resp, util.ErrorWrap(err, "ApiStdTradeOrder,http fail")
+	} else if !httpResp.IsOk() {
+		return resp, util.ErrorNew("ApiStdTradeOrder,code:" + strconv.Itoa(httpResp.GetCode()))
 	}
-	err = json.Unmarshal(bodyBytes, &resp)
+	err = json.Unmarshal(httpResp.GetBytes(), &resp)
 	if err != nil {
-		return resp, err
+		return resp, util.ErrorWrap(err, "ApiStdTradeOrder,json decode fail")
 	}
 	if !resp.IsSuccess() {
-		return resp, errors.New("order fail," + resp.Result.Message)
+		return resp, util.ErrorNew("ApiStdTradeOrder," + resp.Result.Code + ":" + resp.Result.Message)
 	}
 	return resp, nil
 }

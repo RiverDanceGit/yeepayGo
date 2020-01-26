@@ -1,12 +1,13 @@
 package util
 
 import (
+	"github.com/RiverDanceGit/yeepayGo"
+	"github.com/RiverDanceGit/yeepayGo/enum"
 	"io/ioutil"
 	"net/http"
 	"sort"
 	"strings"
-	"github.com/RiverDanceGit/yeepayGo"
-	"github.com/RiverDanceGit/yeepayGo/enum"
+	"time"
 )
 
 func getPostBody(params map[string]string) string {
@@ -20,7 +21,10 @@ func getPostBody(params map[string]string) string {
 	return strings.Join(list, "&")
 }
 
-func Post(url string, queryBody map[string]string, params map[string]string, headers map[string]string, logger yeepayGo.YeepayLoggerInterface) (int, []byte, error) {
+func Post(url string, queryBody map[string]string, params map[string]string, headers map[string]string, logger yeepayGo.YeepayLoggerInterface) (HttpResponse, error) {
+	startTime := time.Now()
+	var httpResp HttpResponse
+
 	postBody := ""
 	if queryBody != nil {
 		postBody = getPostBody(queryBody)
@@ -28,10 +32,9 @@ func Post(url string, queryBody map[string]string, params map[string]string, hea
 
 	req, err := http.NewRequest(enum.HTTP_METHOD_POST, url, strings.NewReader(postBody))
 	if err != nil {
-		if logger != nil {
-			logger.Error(req.URL.String(), "|", headers, "|", postBody, "|", err)
-		}
-		return 0, []byte(""), err
+		httpResp.SetStartTime(startTime)
+		logger.Error(req.URL.String(), "|", headers, "|", postBody, "|", err)
+		return httpResp, err
 	}
 	q := req.URL.Query()
 	if params != nil {
@@ -51,10 +54,9 @@ func Post(url string, queryBody map[string]string, params map[string]string, hea
 	resp, err := client.Do(req)
 	defer resp.Body.Close()
 	if err != nil {
-		if logger != nil {
-			logger.Error(req.URL.String(), "|", headers, "|", postBody, "|", err)
-		}
-		return 0, []byte(""), err
+		httpResp.SetStartTime(startTime)
+		logger.Error(req.URL.String(), "|", headers, "|", postBody, "|", err)
+		return httpResp, err
 	}
 
 	var bodyBytes []byte
@@ -62,9 +64,9 @@ func Post(url string, queryBody map[string]string, params map[string]string, hea
 		bodyBytes, _ = ioutil.ReadAll(resp.Body)
 	}
 
-	if logger != nil {
-		logger.Info(req.URL.String(), "|", headers, "|", postBody, "|", resp.StatusCode, "|", string(bodyBytes))
-	}
-
-	return resp.StatusCode, bodyBytes, nil
+	httpResp.SetStartTime(startTime)
+	httpResp.SetCode(resp.StatusCode)
+	httpResp.SetBytes(bodyBytes)
+	logger.Debug(req.URL.String(), "|", headers, "|", postBody, "|", resp.StatusCode, "|", httpResp.GetLatencyStr(), "|", string(bodyBytes))
+	return httpResp, nil
 }

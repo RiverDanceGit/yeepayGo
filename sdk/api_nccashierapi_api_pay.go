@@ -2,7 +2,6 @@ package sdk
 
 import (
 	"encoding/json"
-	"errors"
 	"github.com/RiverDanceGit/yeepayGo"
 	"github.com/RiverDanceGit/yeepayGo/enum"
 	"github.com/RiverDanceGit/yeepayGo/params"
@@ -61,18 +60,18 @@ func (obj ApiNccashierapiApiPay) GetResponse(req request.NccashierapiApiPayReque
 	url := obj.config.GetGateway() + req.GetMethod()
 
 	var resp response.NccashierapiApiPayResponse
-	code, bodyBytes, err := util.Post(url, req.GetBizContent(), nil, headers, obj.logger)
+	httpResp, err := util.Post(url, req.GetBizContent(), nil, headers, obj.logger)
 	if err != nil {
-		return resp, err
-	} else if code != 200 {
-		return resp, errors.New(req.GetMethod() + " code:" + strconv.Itoa(code))
+		return resp, util.ErrorWrap(err, "ApiNccashierapiApiPay,http fail")
+	} else if !httpResp.IsOk() {
+		return resp, util.ErrorNew("ApiNccashierapiApiPay,code:" + strconv.Itoa(httpResp.GetCode()))
 	}
-	err = json.Unmarshal(bodyBytes, &resp)
+	err = json.Unmarshal(httpResp.GetBytes(), &resp)
 	if err != nil {
-		return resp, err
+		return resp, util.ErrorWrap(err, "ApiNccashierapiApiPay,json decode fail")
 	}
 	if !resp.IsSuccess() {
-		return resp, errors.New("pay fail," + resp.Result.Message)
+		return resp, util.ErrorNew("ApiNccashierapiApiPay," + resp.Result.Code + ":" + resp.Result.Message)
 	}
 	return resp, nil
 }
@@ -82,7 +81,7 @@ func (obj ApiNccashierapiApiPay) GetResultData(resp response.NccashierapiApiPayR
 	bytes := []byte(resp.Result.ResultData)
 	err := json.Unmarshal(bytes, &resultData)
 	if err != nil {
-		return resultData, err
+		return resultData, util.ErrorWrap(err, "ApiNccashierapiApiPay ResultData,json decode fail")
 	}
 	return resultData, nil
 }

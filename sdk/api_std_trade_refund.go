@@ -2,7 +2,6 @@ package sdk
 
 import (
 	"encoding/json"
-	"errors"
 	"github.com/RiverDanceGit/yeepayGo"
 	"github.com/RiverDanceGit/yeepayGo/enum"
 	"github.com/RiverDanceGit/yeepayGo/request"
@@ -46,18 +45,18 @@ func (obj ApiStdTradeRefund) GetResponse(req request.StdTradeRefundRequest) (res
 	url := obj.config.GetGateway() + req.GetMethod()
 
 	var resp response.StdTradeRefundResponse
-	code, bodyBytes, err := util.Post(url, nil, req.GetBizContent(), headers, obj.logger)
+	httpResp, err := util.Post(url, nil, req.GetBizContent(), headers, obj.logger)
 	if err != nil {
-		return resp, err
-	} else if code != 200 {
-		return resp, errors.New(req.GetMethod() + " code:" + strconv.Itoa(code))
+		return resp, util.ErrorWrap(err, "ApiStdTradeRefund,http fail")
+	} else if !httpResp.IsOk() {
+		return resp, util.ErrorNew("ApiStdTradeRefund,code:" + strconv.Itoa(httpResp.GetCode()))
 	}
-	err = json.Unmarshal(bodyBytes, &resp)
+	err = json.Unmarshal(httpResp.GetBytes(), &resp)
 	if err != nil {
-		return resp, err
+		return resp, util.ErrorWrap(err, "ApiStdTradeRefund,json decode fail")
 	}
 	if !resp.IsSuccess() {
-		return resp, errors.New("refund fail," + resp.Result.Message)
+		return resp, util.ErrorNew("ApiStdTradeRefund," + resp.Result.Code + ":" + resp.Result.Message)
 	}
 	return resp, nil
 }
