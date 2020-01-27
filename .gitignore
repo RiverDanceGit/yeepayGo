@@ -1,5 +1,6 @@
 .idea
 .vscode
 .env
+go.sum
 cert/cfca_private_key.pem
 cert/cfca_public_key.txt
