@@ -26,8 +26,8 @@ func TestApiBalanceQueryCustomerAmount(t *testing.T) {
 		return
 	}
 	t.Log("resp.Result.ErrorCode", resp.Result.ErrorCode)
-	t.Log("resp.Result.CustomerNumber", resp.Result.CustomerNumber)
-	t.Log("resp.Result.AccountAmount", resp.Result.AccountAmount)
-	t.Log("resp.Result.RjtValidAmount", resp.Result.RjtValidAmount)
-	t.Log("resp.Result.WtjsValidAmount", resp.Result.WtjsValidAmount)
+	t.Log("resp.Result.CustomerNumber", resp.Result.CustomerNumber)   // 商户编号
+	t.Log("resp.Result.AccountAmount", resp.Result.AccountAmount)     // 账户可用余额
+	t.Log("resp.Result.RjtValidAmount", resp.Result.RjtValidAmount)   // 日结通可用余额
+	t.Log("resp.Result.WtjsValidAmount", resp.Result.WtjsValidAmount) // 代付代发可用余额
 }

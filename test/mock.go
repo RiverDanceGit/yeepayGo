@@ -5,8 +5,8 @@ import (
 	"github.com/RiverDanceGit/yeepayGo/util"
 )
 
-func GetPrivateKeyFile() (string, error) {
-	return util.FileGetContents("../cert/cfca_private_key.pem")
+func GetPrivateKeyFile() string {
+	return "../cert/cfca_private_key.pem"
 }
 
 func getYopPublicKey() (string, error) {
@@ -14,14 +14,11 @@ func getYopPublicKey() (string, error) {
 }
 
 func GetYeepayConfig() (cfg yeepayGo.YeepayConfig, err error) {
-	privFile, err := GetPrivateKeyFile()
+	yopPublicKey, err := getYopPublicKey()
 	if err != nil {
 		return cfg, err
 	}
-	pubKey, err := GetPrivateKeyFile()
-	if err != nil {
-		return cfg, err
-	}
-	cfg = yeepayGo.NewYeepayConfig("10028946649", pubKey, privFile)
+	privateFile := GetPrivateKeyFile()
+	cfg = yeepayGo.NewYeepayConfig("10028946649", yopPublicKey, privateFile)
 	return cfg, nil
 }
