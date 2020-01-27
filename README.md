@@ -18,3 +18,7 @@
 * [代付代发-单笔出款请求](https://open.yeepay.com/docs/remit001/rest__v1.0__balance__transfer_send.html)
 * [代付代发-出款查询](https://open.yeepay.com/docs/remit001/rest__v1.0__balance__transfer_query.html)
 * [代付代发打款结果异步通知](https://open.yeepay.com/docs/remit001/5c0f2f59e92000005d06f196.html)
+
+#### 安装
+
+shell> go get -u -x -v -insecure github.com/RiverDanceGit/yeepayGo
