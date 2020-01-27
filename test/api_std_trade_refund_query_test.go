@@ -8,7 +8,11 @@ import (
 )
 
 func TestApiStdTradeRefundQuery(t *testing.T) {
-	config := GetYeepayConfig()
+	config, err := GetYeepayConfig()
+	if err != nil {
+		t.Error(err)
+		return
+	}
 	logger := yeepayGo.NewYeepayLogger()
 	apiStdTradeRefundQuery := sdk.NewApiStdTradeRefundQuery(config, logger)
 	req := apiStdTradeRefundQuery.GetRequest("", util.Uuid(), "")

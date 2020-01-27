@@ -9,7 +9,11 @@ import (
 
 func TestApiNccashierapiApiPayMiniApp(t *testing.T) {
 	token := "E58FC33398FC02962822FDBCBCF7E8DAD0BA0B34C73A1FE8D16C07119EE38A82"
-	config := GetYeepayConfig()
+	config, err := GetYeepayConfig()
+	if err != nil {
+		t.Error(err)
+		return
+	}
 	logger := yeepayGo.NewYeepayLogger()
 	apiNccashierapiApiPay := sdk.NewApiNccashierapiApiPay(config, logger)
 	req := apiNccashierapiApiPay.GetRequest(token, "1", "1", "115.216.124.169", "", "", enum.PAY_TOOL_MINI_PROGRAM, enum.PAY_TYPE_WECHAT)
@@ -47,7 +51,11 @@ func TestApiNccashierapiApiPayMiniApp(t *testing.T) {
 
 func TestApiNccashierapiApiPayWechatOpen(t *testing.T) {
 	token := "08598D98A74241D26C609860A17036EBEEEAC27DE70A0078F1E1F06978456BC2"
-	config := GetYeepayConfig()
+	config, err := GetYeepayConfig()
+	if err != nil {
+		t.Error(err)
+		return
+	}
 	logger := yeepayGo.NewYeepayLogger()
 	apiNccashierapiApiPay := sdk.NewApiNccashierapiApiPay(config, logger)
 	req := apiNccashierapiApiPay.GetRequest(token, "1", "1", "115.216.124.169", "", "", enum.PAY_TOOL_WECHAT_OPENID, enum.PAY_TYPE_WECHAT)

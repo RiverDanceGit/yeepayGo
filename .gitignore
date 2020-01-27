@@ -1,3 +1,5 @@
 .idea
 .vscode
 .env
+cert/cfca_private_key.pem
+cert/cfca_public_key.txt

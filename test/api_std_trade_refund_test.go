@@ -7,7 +7,11 @@ import (
 )
 
 func TestApiStdTradeRefund(t *testing.T) {
-	config := GetYeepayConfig()
+	config, err := GetYeepayConfig()
+	if err != nil {
+		t.Error(err)
+		return
+	}
 	logger := yeepayGo.NewYeepayLogger()
 	apiStdTradeRefund := sdk.NewApiStdTradeRefund(config, logger)
 	//req := apiStdTradeRefund.GetRequest("20191022144904272121988263183551", "1001201910220000001214000713", util.Uuid(), "0.01", "退款说明", "备注")

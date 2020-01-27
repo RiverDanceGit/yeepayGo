@@ -7,7 +7,11 @@ import (
 )
 
 func TestApiBalanceTransferSend(t *testing.T) {
-	config := GetYeepayConfig()
+	config, err := GetYeepayConfig()
+	if err != nil {
+		t.Error(err)
+		return
+	}
 	logger := yeepayGo.NewYeepayLogger()
 	apiBalanceTransferSend := sdk.NewApiBalanceTransferSend(config, logger)
 	//req := apiBalanceTransferSend.GetRequest("1000000000000001", "TEST_002", "0.01", "马哈哈", "6212261202026355109", "ICBC", "描述描述描述描述描述", "留言留言留言留言留言")

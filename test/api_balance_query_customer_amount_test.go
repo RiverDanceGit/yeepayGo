@@ -7,7 +7,11 @@ import (
 )
 
 func TestApiBalanceQueryCustomerAmount(t *testing.T) {
-	config := GetYeepayConfig()
+	config, err := GetYeepayConfig()
+	if err != nil {
+		t.Error(err)
+		return
+	}
 	logger := yeepayGo.NewYeepayLogger()
 	apiBalanceQueryCustomerAmount := sdk.NewApiBalanceQueryCustomerAmount(config, logger)
 	req := apiBalanceQueryCustomerAmount.GetRequest()

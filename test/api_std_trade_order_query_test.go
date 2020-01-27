@@ -7,7 +7,11 @@ import (
 )
 
 func TestApiStdTradeOrderQuery(t *testing.T) {
-	config := GetYeepayConfig()
+	config, err := GetYeepayConfig()
+	if err != nil {
+		t.Error(err)
+		return
+	}
 	logger := yeepayGo.NewYeepayLogger()
 	apiStdTradeOrderQuery := sdk.NewApiStdTradeOrderQuery(config, logger)
 	req := apiStdTradeOrderQuery.GetRequest("20191022144904272121988263183551", "")

@@ -7,7 +7,11 @@ import (
 )
 
 func TestApiStdTradeOrder(t *testing.T) {
-	config := GetYeepayConfig()
+	config, err := GetYeepayConfig()
+	if err != nil {
+		t.Error(err)
+		return
+	}
 	logger := yeepayGo.NewYeepayLogger()
 	apiStdTradeOrder := sdk.NewApiStdTradeOrder(config, logger)
 	req := apiStdTradeOrder.GetRequest("TEST002", "0.01", "商品名称", "商品描述", "")

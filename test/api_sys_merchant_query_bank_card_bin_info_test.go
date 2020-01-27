@@ -7,7 +7,11 @@ import (
 )
 
 func TestApiSysMerchantQueryBankCardBinInfo(t *testing.T) {
-	config := GetYeepayConfig()
+	config, err := GetYeepayConfig()
+	if err != nil {
+		t.Error(err)
+		return
+	}
 	logger := yeepayGo.NewYeepayLogger()
 	cardno := ""
 	apiSysMerchantQueryBankCardBinInfo := sdk.NewApiSysMerchantQueryBankCardBinInfo(config, logger)
