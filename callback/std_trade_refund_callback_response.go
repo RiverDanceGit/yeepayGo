@@ -18,3 +18,10 @@ type StdTradeRefundCallbackResponse struct {
 	RefundAmount                 string `json:"refundAmount"`
 	Status                       string `json:"status"`
 }
+
+func (resp StdTradeRefundCallbackResponse) IsSuccess() bool {
+	if "SUCCESS" == resp.Status {
+		return true
+	}
+	return false
+}

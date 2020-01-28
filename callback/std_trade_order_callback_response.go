@@ -24,3 +24,10 @@ type StdTradeOrderCallbackResponse struct {
 	MerchantNo             string `json:"merchantNo"`
 	Status                 string `json:"status"`
 }
+
+func (resp StdTradeOrderCallbackResponse) IsSuccess() bool {
+	if "SUCCESS" == resp.Status {
+		return true
+	}
+	return false
+}
