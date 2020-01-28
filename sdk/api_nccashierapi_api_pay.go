@@ -65,13 +65,3 @@ func (obj ApiNccashierapiApiPay) GetResponse(req request.NccashierapiApiPayReque
 	}
 	return resp, nil
 }
-
-func (obj ApiNccashierapiApiPay) GetResultData(resp response.NccashierapiApiPayResponse) (response.NccashierapiApiPayResponseResultData, error) {
-	var resultData response.NccashierapiApiPayResponseResultData
-	bytes := []byte(resp.Result.ResultData)
-	err := json.Unmarshal(bytes, &resultData)
-	if err != nil {
-		return resultData, util.ErrorWrap(err, "ApiNccashierapiApiPay ResultData,json decode fail")
-	}
-	return resultData, nil
-}

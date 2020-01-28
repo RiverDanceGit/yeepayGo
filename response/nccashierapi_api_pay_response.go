@@ -1,5 +1,10 @@
 package response
 
+import (
+	"encoding/json"
+	"github.com/RiverDanceGit/yeepayGo/util"
+)
+
 type NccashierapiApiPayResponse struct {
 	Result struct {
 		Code       string `json:"code"`
@@ -27,4 +32,14 @@ func (resp *NccashierapiApiPayResponse) IsSuccess() bool {
 		return true
 	}
 	return false
+}
+
+func (resp NccashierapiApiPayResponse) GetResultData() (NccashierapiApiPayResponseResultData, error) {
+	var resultData NccashierapiApiPayResponseResultData
+	bytes := []byte(resp.Result.ResultData)
+	err := json.Unmarshal(bytes, &resultData)
+	if err != nil {
+		return resultData, util.ErrorWrap(err, "NccashierapiApiPayResponseResultData json decode fail")
+	}
+	return resultData, nil
 }
