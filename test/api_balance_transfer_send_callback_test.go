@@ -91,12 +91,18 @@ func printApiBalanceTransferSendCallback(t *testing.T, sourceData string) {
 		t.Error(err)
 		return
 	}
+	if !resp.IsSuccess() {
+		t.Error("resp.BankTrxStatusCode", resp.BankTrxStatusCode)
+		t.Error("resp.TransferStatusCode", resp.TransferStatusCode)
+		t.Error(sourceData)
+		return
+	}
 
+	t.Log("resp.TransferStatusCode", resp.TransferStatusCode)
+	t.Log("resp.BankTrxStatusCode", resp.BankTrxStatusCode)
 	t.Log("resp.CustomerNumber", resp.CustomerNumber)
 	t.Log("resp.BatchNo", resp.BatchNo)
 	t.Log("resp.OrderId", resp.OrderId)
-	t.Log("resp.TransferStatusCode", resp.TransferStatusCode)
-	t.Log("resp.BankTrxStatusCode", resp.BankTrxStatusCode)
 	t.Log("resp.SuccessAmount", resp.SuccessAmount)
 	t.Log("resp.FinishDate", resp.FinishDate)
 	t.Log("resp.FailAmount", resp.FailAmount)

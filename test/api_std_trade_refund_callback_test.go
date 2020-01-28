@@ -48,7 +48,13 @@ func TestApiStdTradeRefundCallback(t *testing.T) {
 		t.Error(err)
 		return
 	}
+	if !resp.IsSuccess() {
+		t.Error("resp.Status", resp.Status)
+		t.Error(sourceData)
+		return
+	}
 
+	t.Log("resp.Status", resp.Status)
 	t.Log("resp.DisAccountAmount", resp.DisAccountAmount)
 	t.Log("resp.ResidualAmount", resp.ResidualAmount)
 	t.Log("resp.OrderId", resp.OrderId)
@@ -64,5 +70,4 @@ func TestApiStdTradeRefundCallback(t *testing.T) {
 	t.Log("resp.RefundRequestDate", resp.RefundRequestDate)
 	t.Log("resp.MerchantNo", resp.MerchantNo)
 	t.Log("resp.RefundAmount", resp.RefundAmount)
-	t.Log("resp.Status", resp.Status)
 }

@@ -46,7 +46,13 @@ func TestApiStdTradeOrderCallback(t *testing.T) {
 		t.Error(err)
 		return
 	}
+	if !resp.IsSuccess() {
+		t.Error("resp.Status", resp.Status)
+		t.Error(sourceData)
+		return
+	}
 
+	t.Log("resp.Status", resp.Status)
 	t.Log("resp.BankTrxId", resp.BankTrxId)
 	t.Log("resp.PreAuthAccountTime", resp.PreAuthAccountTime)
 	t.Log("resp.OrderId", resp.OrderId)
@@ -68,5 +74,4 @@ func TestApiStdTradeOrderCallback(t *testing.T) {
 	t.Log("resp.YeepayPromotionDTOList", resp.YeepayPromotionDTOList)
 	t.Log("resp.PaymentProduct", resp.PaymentProduct)
 	t.Log("resp.MerchantNo", resp.MerchantNo)
-	t.Log("resp.Status", resp.Status)
 }
