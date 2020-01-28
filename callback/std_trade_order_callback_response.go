@@ -1,5 +1,7 @@
 package callback
 
+import "encoding/json"
+
 type StdTradeOrderCallbackResponse struct {
 	BankTrxId              string `json:"bankTrxId"`
 	PreAuthAccountTime     string `json:"preAuthAccountTime"`
@@ -30,4 +32,12 @@ func (resp StdTradeOrderCallbackResponse) IsSuccess() bool {
 		return true
 	}
 	return false
+}
+
+func (resp StdTradeOrderCallbackResponse) ToJson() (string, error) {
+	bytes, err := json.Marshal(resp)
+	if err != nil {
+		return "", err
+	}
+	return string(bytes), nil
 }

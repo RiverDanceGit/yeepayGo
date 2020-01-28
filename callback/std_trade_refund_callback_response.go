@@ -1,5 +1,7 @@
 package callback
 
+import "encoding/json"
+
 type StdTradeRefundCallbackResponse struct {
 	DisAccountAmount             string `json:"disAccountAmount"`
 	ResidualAmount               string `json:"residualAmount"`
@@ -24,4 +26,12 @@ func (resp StdTradeRefundCallbackResponse) IsSuccess() bool {
 		return true
 	}
 	return false
+}
+
+func (resp StdTradeRefundCallbackResponse) ToJson() (string, error) {
+	bytes, err := json.Marshal(resp)
+	if err != nil {
+		return "", err
+	}
+	return string(bytes), nil
 }
