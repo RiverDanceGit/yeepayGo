@@ -24,15 +24,15 @@ func (logs *YeepayLogger) Error(args ...interface{}) {
 }
 
 func (logs *YeepayLogger) Info(args ...interface{}) {
-	log.Println("INFO",args)
+	log.Println("INFO", args)
 }
 
 func (logs *YeepayLogger) Debug(args ...interface{}) {
-	log.Println("DEBUG",args)
+	log.Println("DEBUG", args)
 }
 
 func (logs *YeepayLogger) Warn(args ...interface{}) {
-	log.Println("WARN",args)
+	log.Println("WARN", args)
 }
 
 func (logs *YeepayLogger) Panic(args ...interface{}) {
