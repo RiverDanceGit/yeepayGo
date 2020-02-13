@@ -52,12 +52,12 @@ func Post(url string, queryBody map[string]string, params map[string]string, hea
 
 	client := &http.Client{}
 	resp, err := client.Do(req)
-	defer resp.Body.Close()
 	if err != nil {
 		httpResp.SetStartTime(startTime)
 		logger.Error(req.URL.String(), "|", headers, "|", postBody, "|", err)
 		return httpResp, err
 	}
+	defer resp.Body.Close()
 
 	var bodyBytes []byte
 	if resp.Body != nil {
